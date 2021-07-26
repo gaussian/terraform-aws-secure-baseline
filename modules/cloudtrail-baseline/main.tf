@@ -260,6 +260,8 @@ resource "aws_cloudtrail" "global" {
 //      type   = "AWS::S3::Object"
 //      values = var.s3_object_level_logging_buckets
 //    }
+//  # TODO: turn this on when the pull request is merged: https://github.com/hashicorp/terraform-provider-aws/pull/17203
+//      exclude_management_event_sources = ["kms.amazonaws.com"]
 //  }
 //
 //  insight_selector {

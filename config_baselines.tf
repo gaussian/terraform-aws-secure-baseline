@@ -378,152 +378,152 @@ module "config_baseline_us-west-2" {
 # --------------------------------------------------------------------------------------------------
 # Global Config Rules
 # --------------------------------------------------------------------------------------------------
-
-resource "aws_config_config_rule" "iam_mfa" {
-  count = var.config_baseline_enabled ? 1 : 0
-  name  = "IAMAccountMFAEnabled"
-
-  source {
-    owner             = "AWS"
-    source_identifier = "MFA_ENABLED_FOR_IAM_CONSOLE_ACCESS"
-  }
-
-  tags = var.tags
-
-  # Ensure this rule is created after all configuration recorders.
-  depends_on = [
-    module.config_baseline_ap-northeast-1,
-    module.config_baseline_ap-northeast-2,
-    module.config_baseline_ap-northeast-3,
-    module.config_baseline_ap-south-1,
-    module.config_baseline_ap-southeast-1,
-    module.config_baseline_ap-southeast-2,
-    module.config_baseline_ca-central-1,
-    module.config_baseline_eu-central-1,
-    module.config_baseline_eu-north-1,
-    module.config_baseline_eu-west-1,
-    module.config_baseline_eu-west-2,
-    module.config_baseline_eu-west-3,
-    module.config_baseline_sa-east-1,
-    module.config_baseline_us-east-1,
-    module.config_baseline_us-east-2,
-    module.config_baseline_us-west-1,
-    module.config_baseline_us-west-2,
-  ]
-}
-
-resource "aws_config_config_rule" "unused_credentials" {
-  count = var.config_baseline_enabled ? 1 : 0
-  name  = "UnusedCredentialsNotExist"
-
-  source {
-    owner             = "AWS"
-    source_identifier = "IAM_USER_UNUSED_CREDENTIALS_CHECK"
-  }
-
-  input_parameters = "{\"maxCredentialUsageAge\": \"90\"}"
-
-  tags = var.tags
-
-  # Ensure this rule is created after all configuration recorders.
-  depends_on = [
-    module.config_baseline_ap-northeast-1,
-    module.config_baseline_ap-northeast-2,
-    module.config_baseline_ap-northeast-3,
-    module.config_baseline_ap-south-1,
-    module.config_baseline_ap-southeast-1,
-    module.config_baseline_ap-southeast-2,
-    module.config_baseline_ca-central-1,
-    module.config_baseline_eu-central-1,
-    module.config_baseline_eu-north-1,
-    module.config_baseline_eu-west-1,
-    module.config_baseline_eu-west-2,
-    module.config_baseline_eu-west-3,
-    module.config_baseline_sa-east-1,
-    module.config_baseline_us-east-1,
-    module.config_baseline_us-east-2,
-    module.config_baseline_us-west-1,
-    module.config_baseline_us-west-2,
-  ]
-}
-
-resource "aws_config_config_rule" "user_no_policies" {
-  count = var.config_baseline_enabled ? 1 : 0
-  name  = "NoPoliciesAttachedToUser"
-
-  source {
-    owner             = "AWS"
-    source_identifier = "IAM_USER_NO_POLICIES_CHECK"
-  }
-
-  scope {
-    compliance_resource_types = [
-      "AWS::IAM::User",
-    ]
-  }
-
-  tags = var.tags
-
-  # Ensure this rule is created after all configuration recorders.
-  depends_on = [
-    module.config_baseline_ap-northeast-1,
-    module.config_baseline_ap-northeast-2,
-    module.config_baseline_ap-northeast-3,
-    module.config_baseline_ap-south-1,
-    module.config_baseline_ap-southeast-1,
-    module.config_baseline_ap-southeast-2,
-    module.config_baseline_ca-central-1,
-    module.config_baseline_eu-central-1,
-    module.config_baseline_eu-north-1,
-    module.config_baseline_eu-west-1,
-    module.config_baseline_eu-west-2,
-    module.config_baseline_eu-west-3,
-    module.config_baseline_sa-east-1,
-    module.config_baseline_us-east-1,
-    module.config_baseline_us-east-2,
-    module.config_baseline_us-west-1,
-    module.config_baseline_us-west-2,
-  ]
-}
-
-resource "aws_config_config_rule" "no_policies_with_full_admin_access" {
-  count = var.config_baseline_enabled ? 1 : 0
-  name  = "NoPoliciesWithFullAdminAccess"
-
-  source {
-    owner             = "AWS"
-    source_identifier = "IAM_POLICY_NO_STATEMENTS_WITH_ADMIN_ACCESS"
-  }
-
-  scope {
-    compliance_resource_types = [
-      "AWS::IAM::Policy",
-    ]
-  }
-
-  tags = var.tags
-
-  # Ensure this rule is created after all configuration recorders.
-  depends_on = [
-    module.config_baseline_ap-northeast-1,
-    module.config_baseline_ap-northeast-2,
-    module.config_baseline_ap-northeast-3,
-    module.config_baseline_ap-south-1,
-    module.config_baseline_ap-southeast-1,
-    module.config_baseline_ap-southeast-2,
-    module.config_baseline_ca-central-1,
-    module.config_baseline_eu-central-1,
-    module.config_baseline_eu-north-1,
-    module.config_baseline_eu-west-1,
-    module.config_baseline_eu-west-2,
-    module.config_baseline_eu-west-3,
-    module.config_baseline_sa-east-1,
-    module.config_baseline_us-east-1,
-    module.config_baseline_us-east-2,
-    module.config_baseline_us-west-1,
-    module.config_baseline_us-west-2,
-  ]
-}
+# TODO: these are already part of existing security standards
+//resource "aws_config_config_rule" "iam_mfa" {
+//  count = var.config_baseline_enabled ? 1 : 0
+//  name  = "IAMAccountMFAEnabled"
+//
+//  source {
+//    owner             = "AWS"
+//    source_identifier = "MFA_ENABLED_FOR_IAM_CONSOLE_ACCESS"
+//  }
+//
+//  tags = var.tags
+//
+//  # Ensure this rule is created after all configuration recorders.
+//  depends_on = [
+//    module.config_baseline_ap-northeast-1,
+//    module.config_baseline_ap-northeast-2,
+//    module.config_baseline_ap-northeast-3,
+//    module.config_baseline_ap-south-1,
+//    module.config_baseline_ap-southeast-1,
+//    module.config_baseline_ap-southeast-2,
+//    module.config_baseline_ca-central-1,
+//    module.config_baseline_eu-central-1,
+//    module.config_baseline_eu-north-1,
+//    module.config_baseline_eu-west-1,
+//    module.config_baseline_eu-west-2,
+//    module.config_baseline_eu-west-3,
+//    module.config_baseline_sa-east-1,
+//    module.config_baseline_us-east-1,
+//    module.config_baseline_us-east-2,
+//    module.config_baseline_us-west-1,
+//    module.config_baseline_us-west-2,
+//  ]
+//}
+//
+//resource "aws_config_config_rule" "unused_credentials" {
+//  count = var.config_baseline_enabled ? 1 : 0
+//  name  = "UnusedCredentialsNotExist"
+//
+//  source {
+//    owner             = "AWS"
+//    source_identifier = "IAM_USER_UNUSED_CREDENTIALS_CHECK"
+//  }
+//
+//  input_parameters = "{\"maxCredentialUsageAge\": \"90\"}"
+//
+//  tags = var.tags
+//
+//  # Ensure this rule is created after all configuration recorders.
+//  depends_on = [
+//    module.config_baseline_ap-northeast-1,
+//    module.config_baseline_ap-northeast-2,
+//    module.config_baseline_ap-northeast-3,
+//    module.config_baseline_ap-south-1,
+//    module.config_baseline_ap-southeast-1,
+//    module.config_baseline_ap-southeast-2,
+//    module.config_baseline_ca-central-1,
+//    module.config_baseline_eu-central-1,
+//    module.config_baseline_eu-north-1,
+//    module.config_baseline_eu-west-1,
+//    module.config_baseline_eu-west-2,
+//    module.config_baseline_eu-west-3,
+//    module.config_baseline_sa-east-1,
+//    module.config_baseline_us-east-1,
+//    module.config_baseline_us-east-2,
+//    module.config_baseline_us-west-1,
+//    module.config_baseline_us-west-2,
+//  ]
+//}
+//
+//resource "aws_config_config_rule" "user_no_policies" {
+//  count = var.config_baseline_enabled ? 1 : 0
+//  name  = "NoPoliciesAttachedToUser"
+//
+//  source {
+//    owner             = "AWS"
+//    source_identifier = "IAM_USER_NO_POLICIES_CHECK"
+//  }
+//
+//  scope {
+//    compliance_resource_types = [
+//      "AWS::IAM::User",
+//    ]
+//  }
+//
+//  tags = var.tags
+//
+//  # Ensure this rule is created after all configuration recorders.
+//  depends_on = [
+//    module.config_baseline_ap-northeast-1,
+//    module.config_baseline_ap-northeast-2,
+//    module.config_baseline_ap-northeast-3,
+//    module.config_baseline_ap-south-1,
+//    module.config_baseline_ap-southeast-1,
+//    module.config_baseline_ap-southeast-2,
+//    module.config_baseline_ca-central-1,
+//    module.config_baseline_eu-central-1,
+//    module.config_baseline_eu-north-1,
+//    module.config_baseline_eu-west-1,
+//    module.config_baseline_eu-west-2,
+//    module.config_baseline_eu-west-3,
+//    module.config_baseline_sa-east-1,
+//    module.config_baseline_us-east-1,
+//    module.config_baseline_us-east-2,
+//    module.config_baseline_us-west-1,
+//    module.config_baseline_us-west-2,
+//  ]
+//}
+//
+//resource "aws_config_config_rule" "no_policies_with_full_admin_access" {
+//  count = var.config_baseline_enabled ? 1 : 0
+//  name  = "NoPoliciesWithFullAdminAccess"
+//
+//  source {
+//    owner             = "AWS"
+//    source_identifier = "IAM_POLICY_NO_STATEMENTS_WITH_ADMIN_ACCESS"
+//  }
+//
+//  scope {
+//    compliance_resource_types = [
+//      "AWS::IAM::Policy",
+//    ]
+//  }
+//
+//  tags = var.tags
+//
+//  # Ensure this rule is created after all configuration recorders.
+//  depends_on = [
+//    module.config_baseline_ap-northeast-1,
+//    module.config_baseline_ap-northeast-2,
+//    module.config_baseline_ap-northeast-3,
+//    module.config_baseline_ap-south-1,
+//    module.config_baseline_ap-southeast-1,
+//    module.config_baseline_ap-southeast-2,
+//    module.config_baseline_ca-central-1,
+//    module.config_baseline_eu-central-1,
+//    module.config_baseline_eu-north-1,
+//    module.config_baseline_eu-west-1,
+//    module.config_baseline_eu-west-2,
+//    module.config_baseline_eu-west-3,
+//    module.config_baseline_sa-east-1,
+//    module.config_baseline_us-east-1,
+//    module.config_baseline_us-east-2,
+//    module.config_baseline_us-west-1,
+//    module.config_baseline_us-west-2,
+//  ]
+//}
 
 # --------------------------------------------------------------------------------------------------
 # Aggregator View
