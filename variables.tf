@@ -75,7 +75,7 @@ variable "audit_log_lifecycle_glacier_transition_days" {
   default     = 90
 }
 
-variable "lifecycle_expiration_days" {
+variable "audit_log_lifecycle_expiration_days" {
   description = "The number of days after log creation when the log file is deleted."
   default     = 365
 }

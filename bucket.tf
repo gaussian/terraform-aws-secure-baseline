@@ -34,6 +34,7 @@ module "audit_log_bucket" {
   bucket_name                       = var.audit_log_bucket_name
   log_bucket_name                   = "${var.audit_log_bucket_name}-access-logs"
   lifecycle_glacier_transition_days = var.audit_log_lifecycle_glacier_transition_days
+  lifecycle_expiration_days         = var.audit_log_lifecycle_expiration_days
   force_destroy                     = var.audit_log_bucket_force_destroy
   enabled                           = !local.use_external_bucket
 
