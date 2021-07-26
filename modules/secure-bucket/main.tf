@@ -21,7 +21,9 @@ data "aws_iam_policy_document" "access_log_policy" {
 }
 
 resource "aws_s3_bucket" "access_log" {
-  count = var.enabled ? 1 : 0
+  # TODO: TURN BACK ON
+//  count = var.enabled ? 1 : 0
+  count = 0
 
   bucket = var.log_bucket_name
 
@@ -38,13 +40,24 @@ resource "aws_s3_bucket" "access_log" {
 
   lifecycle_rule {
     id      = "auto-archive"
-    enabled = true
+    enabled = var.lifecycle_glacier_transition_days > 0
 
     prefix = "/"
 
     transition {
       days          = var.lifecycle_glacier_transition_days
       storage_class = "GLACIER"
+    }
+  }
+
+  lifecycle_rule {
+    id      = "auto-delete"
+    enabled = true
+
+    prefix = "/"
+
+    expiration {
+      days          = var.lifecycle_expiration_days
     }
   }
 
@@ -90,7 +103,7 @@ resource "aws_s3_bucket" "content" {
   }
 
   versioning {
-    enabled = true
+    enabled = false
     # Temporarily disabled due to Terraform issue.
     # https://github.com/terraform-providers/terraform-provider-aws/issues/629
     # mfa_delete = true
@@ -98,7 +111,7 @@ resource "aws_s3_bucket" "content" {
 
   lifecycle_rule {
     id      = "auto-archive"
-    enabled = true
+    enabled = var.lifecycle_glacier_transition_days > 0
 
     prefix = "/"
 
@@ -110,6 +123,17 @@ resource "aws_s3_bucket" "content" {
     noncurrent_version_transition {
       days          = var.lifecycle_glacier_transition_days
       storage_class = "GLACIER"
+    }
+  }
+
+  lifecycle_rule {
+    id      = "auto-delete"
+    enabled = true
+
+    prefix = "/"
+
+    expiration {
+      days          = var.lifecycle_expiration_days
     }
   }
 

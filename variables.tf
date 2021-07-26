@@ -75,6 +75,11 @@ variable "audit_log_lifecycle_glacier_transition_days" {
   default     = 90
 }
 
+variable "lifecycle_expiration_days" {
+  description = "The number of days after log creation when the log file is deleted."
+  default     = 365
+}
+
 variable "audit_log_bucket_force_destroy" {
   description = "A boolean that indicates all objects should be deleted from the audit log bucket so that the bucket can be destroyed without error. These objects are not recoverable."
   default     = false
