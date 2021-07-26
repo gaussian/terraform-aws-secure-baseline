@@ -3,7 +3,7 @@
 # --------------------------------------------------------------------------------------------------
 
 resource "aws_sns_topic" "alarms" {
-  count = var.enabled ? 1 : 0
+  count = (var.enabled && var.sns_topic_name != "") ? 1 : 0
 
   name = var.sns_topic_name
 
