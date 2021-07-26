@@ -170,29 +170,29 @@ output "vpc_flow_logs_group" {
   } : null
 }
 
-output "default_vpc" {
-  description = "The default VPC."
-
-  value = {
-    "ap-northeast-1" = module.vpc_baseline_ap-northeast-1.default_vpc
-    "ap-northeast-2" = module.vpc_baseline_ap-northeast-2.default_vpc
-    "ap-northeast-3" = module.vpc_baseline_ap-northeast-3.default_vpc
-    "ap-south-1"     = module.vpc_baseline_ap-south-1.default_vpc
-    "ap-southeast-1" = module.vpc_baseline_ap-southeast-1.default_vpc
-    "ap-southeast-2" = module.vpc_baseline_ap-southeast-2.default_vpc
-    "ca-central-1"   = module.vpc_baseline_ca-central-1.default_vpc
-    "eu-central-1"   = module.vpc_baseline_eu-central-1.default_vpc
-    "eu-north-1"     = module.vpc_baseline_eu-north-1.default_vpc
-    "eu-west-1"      = module.vpc_baseline_eu-west-1.default_vpc
-    "eu-west-2"      = module.vpc_baseline_eu-west-2.default_vpc
-    "eu-west-3"      = module.vpc_baseline_eu-west-3.default_vpc
-    "sa-east-1"      = module.vpc_baseline_sa-east-1.default_vpc
-    "us-east-1"      = module.vpc_baseline_us-east-1.default_vpc
-    "us-east-2"      = module.vpc_baseline_us-east-2.default_vpc
-    "us-west-1"      = module.vpc_baseline_us-west-1.default_vpc
-    "us-west-2"      = module.vpc_baseline_us-west-2.default_vpc
-  }
-}
+//output "default_vpc" {
+//  description = "The default VPC."
+//
+//  value = {
+//    "ap-northeast-1" = module.vpc_baseline_ap-northeast-1.default_vpc
+//    "ap-northeast-2" = module.vpc_baseline_ap-northeast-2.default_vpc
+//    "ap-northeast-3" = module.vpc_baseline_ap-northeast-3.default_vpc
+//    "ap-south-1"     = module.vpc_baseline_ap-south-1.default_vpc
+//    "ap-southeast-1" = module.vpc_baseline_ap-southeast-1.default_vpc
+//    "ap-southeast-2" = module.vpc_baseline_ap-southeast-2.default_vpc
+//    "ca-central-1"   = module.vpc_baseline_ca-central-1.default_vpc
+//    "eu-central-1"   = module.vpc_baseline_eu-central-1.default_vpc
+//    "eu-north-1"     = module.vpc_baseline_eu-north-1.default_vpc
+//    "eu-west-1"      = module.vpc_baseline_eu-west-1.default_vpc
+//    "eu-west-2"      = module.vpc_baseline_eu-west-2.default_vpc
+//    "eu-west-3"      = module.vpc_baseline_eu-west-3.default_vpc
+//    "sa-east-1"      = module.vpc_baseline_sa-east-1.default_vpc
+//    "us-east-1"      = module.vpc_baseline_us-east-1.default_vpc
+//    "us-east-2"      = module.vpc_baseline_us-east-2.default_vpc
+//    "us-west-1"      = module.vpc_baseline_us-west-1.default_vpc
+//    "us-west-2"      = module.vpc_baseline_us-west-2.default_vpc
+//  }
+//}
 
 output "default_security_group" {
   description = "The ID of the default security group."

@@ -29,7 +29,7 @@ resource "aws_flow_log" "default_vpc_flow_logs" {
   log_destination_type = var.flow_logs_destination_type
   log_destination      = local.is_cw_logs ? aws_cloudwatch_log_group.default_vpc_flow_logs[0].arn : local.s3_destination_arn
   iam_role_arn         = local.is_cw_logs ? var.flow_logs_iam_role_arn : null
-  vpc_id               = data.aws_vpc.default[0].id
+  vpc_id               = data.aws_vpc.default.id
   traffic_type         = "REJECT"
   # TODO: make this "ALL"
 
@@ -91,13 +91,13 @@ resource "aws_flow_log" "default_vpc_flow_logs" {
 //  }
 //}
 //
-//resource "aws_default_security_group" "default" {
-//  count = var.enabled ? 1 : 0
-//
-//  vpc_id = aws_default_vpc.default[0].id
-//
-//  tags = merge(
-//    var.tags,
-//    { Name = "Default Security Group" }
-//  )
-//}
+resource "aws_default_security_group" "default" {
+  count = var.enabled ? 1 : 0
+
+  vpc_id = data.aws_vpc.default.id
+
+  tags = merge(
+    var.tags,
+    { Name = "Default Security Group" }
+  )
+}
