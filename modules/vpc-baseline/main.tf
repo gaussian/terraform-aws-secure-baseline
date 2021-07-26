@@ -6,6 +6,10 @@ locals {
 data "aws_availability_zones" "all" {
 }
 
+data "aws_vpc" "default" {
+  default = true
+}
+
 # --------------------------------------------------------------------------------------------------
 # Enable VPC Flow Logs for the default VPC.
 # --------------------------------------------------------------------------------------------------
@@ -25,7 +29,7 @@ resource "aws_flow_log" "default_vpc_flow_logs" {
   log_destination_type = var.flow_logs_destination_type
   log_destination      = local.is_cw_logs ? aws_cloudwatch_log_group.default_vpc_flow_logs[0].arn : local.s3_destination_arn
   iam_role_arn         = local.is_cw_logs ? var.flow_logs_iam_role_arn : null
-  vpc_id               = aws_default_vpc.default[0].id
+  vpc_id               = data.aws_vpc.default[0].id
   traffic_type         = "REJECT"
   # TODO: make this "ALL"
 
@@ -36,16 +40,16 @@ resource "aws_flow_log" "default_vpc_flow_logs" {
 # Clears rules associated with default resources.
 # --------------------------------------------------------------------------------------------------
 
-resource "aws_default_vpc" "default" {
-  count = var.enabled ? 1 : 0
-
-  tags = merge(
-    var.tags,
-    { Name = "Default VPC" }
-  )
-}
-
 # TODO: turn these on? not sure what they're doing
+//resource "aws_default_vpc" "default" {
+//  count = var.enabled ? 1 : 0
+//
+//  tags = merge(
+//    var.tags,
+//    { Name = "Default VPC" }
+//  )
+//}
+//
 //resource "aws_default_subnet" "default" {
 //  count = var.enabled ? length(data.aws_availability_zones.all.names) : 0
 //
