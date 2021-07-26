@@ -251,19 +251,20 @@ resource "aws_cloudtrail" "global" {
   s3_key_prefix                 = var.s3_key_prefix
   sns_topic_name                = var.cloudtrail_sns_topic_enabled ? aws_sns_topic.cloudtrail-sns-topic[0].arn : null
 
-  event_selector {
-    read_write_type           = "All"
-    include_management_events = true
-
-    data_resource {
-      type   = "AWS::S3::Object"
-      values = var.s3_object_level_logging_buckets
-    }
-  }
-
-  insight_selector {
-    insight_type = "ApiCallRateInsight"
-  }
+  # TODO: turn on?
+//  event_selector {
+//    read_write_type           = "All"
+//    include_management_events = true
+//
+//    data_resource {
+//      type   = "AWS::S3::Object"
+//      values = var.s3_object_level_logging_buckets
+//    }
+//  }
+//
+//  insight_selector {
+//    insight_type = "ApiCallRateInsight"
+//  }
 
   tags = var.tags
 
