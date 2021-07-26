@@ -1,6 +1,6 @@
 output "default_vpc" {
   description = "The default VPC."
-  value       = var.enabled ? aws_default_vpc.default[0] : null
+  value       = var.enabled ? data.aws_vpc.default: null
 }
 
 output "default_security_group" {
