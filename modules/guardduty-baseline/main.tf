@@ -29,3 +29,10 @@ resource "aws_guardduty_invite_accepter" "master" {
   detector_id       = aws_guardduty_detector.default[0].id
   master_account_id = var.master_account_id
 }
+
+# TODO: can we add this?
+//resource "aws_guardduty_organization_admin_account" "example" {
+//  depends_on = [aws_organizations_organization.example]
+//
+//  admin_account_id = "123456789012"
+//}
