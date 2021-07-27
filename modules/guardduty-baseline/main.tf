@@ -24,7 +24,7 @@ resource "aws_guardduty_member" "members" {
 }
 
 resource "aws_guardduty_invite_accepter" "master" {
-  count = var.enabled && var.master_account_id != "" ? 1 : 0
+  count = var.enabled && length(var.member_accounts) && var.master_account_id != "" ? 1 : 0
 
   detector_id       = aws_guardduty_detector.default[0].id
   master_account_id = var.master_account_id
