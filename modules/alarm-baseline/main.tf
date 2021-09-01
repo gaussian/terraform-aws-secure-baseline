@@ -5,8 +5,7 @@
 resource "aws_sns_topic" "alarms" {
   count = (var.enabled && var.sns_topic_name != "") ? 1 : 0
 
-  name              = var.sns_topic_name
-  kms_master_key_id = "alias/aws/sns"
+  name = var.sns_topic_name
 
   tags = var.tags
 }
