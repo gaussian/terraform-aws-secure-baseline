@@ -24,6 +24,8 @@ terraform {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 locals {
   is_individual_account = var.account_type == "individual"
   is_master_account     = var.account_type == "master"
@@ -80,6 +82,8 @@ module "cloudtrail_baseline" {
   s3_bucket_name                    = local.audit_log_bucket_id
   s3_key_prefix                     = var.cloudtrail_s3_key_prefix
   s3_object_level_logging_buckets   = var.cloudtrail_s3_object_level_logging_buckets
+  dynamodb_event_logging_tables     = var.cloudtrail_dynamodb_event_logging_tables
+  lambda_invocation_logging_lambdas = var.cloudtrail_lambda_invocation_logging_lambdas
   is_organization_trail             = local.is_master_account
   tags                              = var.tags
 }
@@ -110,6 +114,7 @@ module "alarm_baseline" {
   alarm_namespace                  = var.alarm_namespace
   cloudtrail_log_group_name        = local.is_cloudtrail_enabled ? module.cloudtrail_baseline.log_group : ""
   sns_topic_name                   = var.alarm_sns_topic_name
+  sns_topic_kms_master_key_id      = var.alarm_sns_topic_kms_master_key_id
 
   tags = var.tags
 }
@@ -126,4 +131,3 @@ module "s3_baseline" {
   ignore_public_acls      = var.s3_ignore_public_acls
   restrict_public_buckets = var.s3_restrict_public_buckets
 }
-

@@ -251,22 +251,40 @@ resource "aws_cloudtrail" "global" {
   s3_key_prefix                 = var.s3_key_prefix
   sns_topic_name                = var.cloudtrail_sns_topic_enabled ? aws_sns_topic.cloudtrail-sns-topic[0].arn : null
 
+  # TODO: turn this on when the pull request is merged: https://github.com/hashicorp/terraform-provider-aws/pull/17203
+#  event_selector {
+#    exclude_management_event_sources = ["kms.amazonaws.com"]
+#  }
+
   # TODO: turn on?
-//  event_selector {
-//    read_write_type           = "All"
-//    include_management_events = true
-//
-//    data_resource {
-//      type   = "AWS::S3::Object"
-//      values = var.s3_object_level_logging_buckets
-//    }
-//  # TODO: turn this on when the pull request is merged: https://github.com/hashicorp/terraform-provider-aws/pull/17203
-//      exclude_management_event_sources = ["kms.amazonaws.com"]
-//  }
-//
-//  insight_selector {
-//    insight_type = "ApiCallRateInsight"
-//  }
+#  event_selector {
+#    read_write_type           = "All"
+#    include_management_events = true
+#
+#    data_resource {
+#      type   = "AWS::S3::Object"
+#      values = var.s3_object_level_logging_buckets
+#    }
+#  }
+#
+#  event_selector {
+#    read_write_type           = "All"
+#    include_management_events = true
+#
+#    data_resource {
+#      type   = "AWS::DynamoDB::Table"
+#      values = var.dynamodb_event_logging_tables
+#    }
+#
+#    data_resource {
+#      type   = "AWS::Lambda::Function"
+#      values = var.lambda_invocation_logging_lambdas
+#    }
+#  }
+#
+#  insight_selector {
+#    insight_type = "ApiCallRateInsight"
+#  }
 
   tags = var.tags
 

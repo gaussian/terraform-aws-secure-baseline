@@ -154,7 +154,7 @@ variable "support_iam_role_principal_arns" {
 
 variable "max_password_age" {
   description = "The number of days that an user password is valid."
-  default     = 90
+  default     = 0
 }
 
 variable "minimum_password_length" {
@@ -169,22 +169,22 @@ variable "password_reuse_prevention" {
 
 variable "require_lowercase_characters" {
   description = "Whether to require lowercase characters for user passwords."
-  default     = true
+  default     = false
 }
 
 variable "require_numbers" {
   description = "Whether to require numbers for user passwords."
-  default     = true
+  default     = false
 }
 
 variable "require_uppercase_characters" {
   description = "Whether to require uppercase characters for user passwords."
-  default     = true
+  default     = false
 }
 
 variable "require_symbols" {
   description = "Whether to require symbols for user passwords."
-  default     = true
+  default     = false
 }
 
 variable "allow_users_to_change_password" {
@@ -274,6 +274,11 @@ variable "config_sns_topic_name" {
   default     = "ConfigChanges"
 }
 
+variable "config_sns_topic_kms_master_key_id" {
+  description = "To enable SNS Topic encryption enter value with the ID of a custom master KMS key that is used for encryption"
+  default     = null
+}
+
 variable "config_aggregator_name" {
   description = "The name of the organizational AWS Config Configuration Aggregator."
   default     = "organization-aggregator"
@@ -348,6 +353,15 @@ variable "cloudtrail_s3_object_level_logging_buckets" {
   default     = ["arn:aws:s3:::"] # All S3 buckets
 }
 
+variable "cloudtrail_dynamodb_event_logging_tables" {
+  description = "The list of DynamoDB table ARNs on which to enable event logging."
+  default     = ["arn:aws:dynamodb"] # All DynamoDB tables
+}
+
+variable "cloudtrail_lambda_invocation_logging_lambdas" {
+  description = "The list of lambda ARNs on which to enable invocation logging."
+  default     = ["arn:aws:lambda"] # All lambdas
+}
 
 # --------------------------------------------------------------------------------------------------
 # Variables for alarm-baseline module.
@@ -362,6 +376,12 @@ variable "alarm_sns_topic_name" {
   description = "The name of the SNS Topic which will be notified when any alarm is performed."
   default     = "CISAlarm"
 }
+
+variable "alarm_sns_topic_kms_master_key_id" {
+  description = "To enable SNS Topic encryption enter value with the ID of a custom master KMS key that is used for encryption"
+  default     = null
+}
+
 variable "unauthorized_api_calls_enabled" {
   description = "The boolean flag whether the unauthorized_api_calls alarm is enabled or not. No resources are created when set to false."
   default     = true
@@ -506,10 +526,16 @@ variable "securityhub_enable_aws_foundational_standard" {
   default     = true
 }
 
+variable "securityhub_enable_product_arns" {
+  description = "List of Security Hub product ARNs, `<REGION>` will be replaced. See https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-partner-providers.html for list."
+  type        = list(string)
+  default     = []
+}
+
 # --------------------------------------------------------------------------------------------------
 # Variables for analyzer-baseline module.
 # --------------------------------------------------------------------------------------------------
 variable "analyzer_name" {
   description = "The name for the IAM Access Analyzer resource to be created."
-  default     = "default-analyer"
+  default     = "default-analyzer"
 }
