@@ -136,8 +136,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "content" {
     }
 
     noncurrent_version_transition {
-      days          = var.lifecycle_glacier_transition_days
-      storage_class = "GLACIER"
+      noncurrent_days = var.lifecycle_glacier_transition_days
+      storage_class   = "GLACIER"
     }
 
     status = var.lifecycle_glacier_transition_days > 0 ? "Enabled" : "Disabled"
@@ -151,7 +151,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "content" {
     }
 
     expiration {
-      days          = var.lifecycle_expiration_days
+      days = var.lifecycle_expiration_days
     }
 
     status = "Enabled"
