@@ -88,34 +88,47 @@ resource "aws_s3_bucket" "content" {
 
   bucket = var.bucket_name
 
-  acl           = "private"
   force_destroy = var.force_destroy
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
 
   # TODO: turn on
 //  logging {
 //    target_bucket = aws_s3_bucket.access_log[0].id
 //  }
 
-  versioning {
-    enabled = false
-    # Temporarily disabled due to Terraform issue.
-    # https://github.com/terraform-providers/terraform-provider-aws/issues/629
-    # mfa_delete = true
+  tags = var.tags
+}
+
+resource "aws_s3_bucket_acl" "content" {
+  bucket = aws_s3_bucket.content[0].id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "content" {
+  bucket = aws_s3_bucket.content[0].id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
+}
 
-  lifecycle_rule {
-    id      = "auto-archive"
-    enabled = var.lifecycle_glacier_transition_days > 0
+resource "aws_s3_bucket_versioning" "content" {
+  bucket = aws_s3_bucket.content[0].id
+  versioning_configuration {
+    status = "Disabled"
+  }
+}
 
-    prefix = "/"
+resource "aws_s3_bucket_lifecycle_configuration" "content" {
+  bucket = aws_s3_bucket.content[0].id
+
+  rule {
+    id = "auto-archive"
+
+    filter {
+      prefix = "/"
+    }
 
     transition {
       days          = var.lifecycle_glacier_transition_days
@@ -126,20 +139,23 @@ resource "aws_s3_bucket" "content" {
       days          = var.lifecycle_glacier_transition_days
       storage_class = "GLACIER"
     }
+
+    status = var.lifecycle_glacier_transition_days > 0 ? "Enabled" : "Disabled"
   }
 
-  lifecycle_rule {
-    id      = "auto-delete"
-    enabled = true
+  rule {
+    id = "auto-delete"
 
-    prefix = "/"
+    filter {
+      prefix = "/"
+    }
 
     expiration {
       days          = var.lifecycle_expiration_days
     }
-  }
 
-  tags = var.tags
+    status = "Enabled"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "content" {

@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 0.15"
+  required_version = ">= 1.2"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 3.39.0"
+      version = ">= 4.23"
 
       # A provider alias should be passed for each AWS region.
       # Reference: https://docs.aws.amazon.com/general/latest/gr/rande.html
