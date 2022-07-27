@@ -251,10 +251,15 @@ resource "aws_cloudtrail" "global" {
   s3_key_prefix                 = var.s3_key_prefix
   sns_topic_name                = var.cloudtrail_sns_topic_enabled ? aws_sns_topic.cloudtrail-sns-topic[0].arn : null
 
-  # TODO: turn this on when the pull request is merged: https://github.com/hashicorp/terraform-provider-aws/pull/17203
-#  event_selector {
-#    exclude_management_event_sources = ["kms.amazonaws.com"]
-#  }
+  event_selector {
+    read_write_type                  = "All"
+    include_management_events        = true
+    exclude_management_event_sources = [
+      "kms.amazonaws.com",
+      "rdsdata.amazonaws.com",
+    ]
+  }
+}
 
   # TODO: turn on?
 #  event_selector {
