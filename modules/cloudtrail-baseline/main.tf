@@ -259,7 +259,6 @@ resource "aws_cloudtrail" "global" {
       "rdsdata.amazonaws.com",
     ]
   }
-}
 
   # TODO: turn on?
 #  event_selector {
