@@ -173,10 +173,10 @@ data "aws_iam_policy_document" "cloudtrail_key_policy" {
 
   # https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-permissions-for-sns-notifications.html
   statement {
-    sid = "Allow CloudTrail (and CloudWatch/EventBridge) to send notifications to the encrypted SNS topic"
+    sid = "Allow CloudTrail (and CloudWatch/EventBridge/SES) to send notifications to the encrypted SNS topic"
     principals {
       type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com", "cloudwatch.amazonaws.com", "events.amazonaws.com"]
+      identifiers = ["cloudtrail.amazonaws.com", "cloudwatch.amazonaws.com", "events.amazonaws.com", "ses.amazonaws.com"]
     }
     actions = [
       "kms:GenerateDataKey*",
