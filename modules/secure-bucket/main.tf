@@ -146,13 +146,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "content" {
   rule {
     id = "auto-delete"
 
-    filter {
-      prefix = "/"
-    }
-
     expiration {
       days = var.lifecycle_expiration_days
     }
+	
+//	noncurrent_version_expiration {
+//	  noncurrent_days = var.lifecycle_expiration_days
+//	}
 
     status = "Enabled"
   }
