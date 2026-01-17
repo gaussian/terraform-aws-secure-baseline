@@ -40,6 +40,17 @@ data "aws_iam_policy_document" "alarms-sns-policy" {
       values   = ["arn:aws:cloudwatch:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:alarm:*"]
     }
   }
+
+  statement {
+    actions   = ["sns:Publish"]
+    resources = [aws_sns_topic.alarms[0].arn]
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+  }
+
 }
 
 # --------------------------------------------------------------------------------------------------
