@@ -26,6 +26,7 @@ data "aws_iam_policy_document" "alarms-sns-policy" {
   count = var.enabled ? 1 : 0
 
   statement {
+    sid       = "AllowCloudWatchAlarms"
     actions   = ["sns:Publish"]
     resources = [aws_sns_topic.alarms[0].arn]
 
@@ -42,6 +43,7 @@ data "aws_iam_policy_document" "alarms-sns-policy" {
   }
 
   statement {
+    sid       = "AllowEventBridge"
     actions   = ["sns:Publish"]
     resources = [aws_sns_topic.alarms[0].arn]
 
