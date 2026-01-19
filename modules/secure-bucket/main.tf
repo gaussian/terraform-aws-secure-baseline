@@ -91,16 +91,19 @@ resource "aws_s3_bucket" "content" {
   force_destroy = var.force_destroy
 
   # TODO: turn on
-//  logging {
-//    target_bucket = aws_s3_bucket.access_log[0].id
-//  }
+  //  logging {
+  //    target_bucket = aws_s3_bucket.access_log[0].id
+  //  }
 
   tags = var.tags
 }
 
-resource "aws_s3_bucket_acl" "content" {
+resource "aws_s3_bucket_ownership_controls" "content" {
   bucket = aws_s3_bucket.content[0].id
-  acl    = "private"
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "content" {
@@ -116,7 +119,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "content" {
 resource "aws_s3_bucket_versioning" "content" {
   bucket = aws_s3_bucket.content[0].id
   versioning_configuration {
-    status = "Suspended"
+    status = "Enabled"
   }
 }
 
@@ -149,10 +152,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "content" {
     expiration {
       days = var.lifecycle_expiration_days
     }
-	
-//	noncurrent_version_expiration {
-//	  noncurrent_days = var.lifecycle_expiration_days
-//	}
+
+    noncurrent_version_expiration {
+      noncurrent_days = var.lifecycle_expiration_days
+    }
 
     status = "Enabled"
   }
