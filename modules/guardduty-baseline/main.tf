@@ -16,6 +16,14 @@ resource "aws_guardduty_detector" "default" {
       s3_logs {
         enable = true
       }
+
+      malware_protection {
+        scan_ec2_instance_with_findings {
+          ebs_volumes {
+            enable = var.malware_protection_enabled
+          }
+        }
+      }
     }
   }
 

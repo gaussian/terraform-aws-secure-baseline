@@ -480,6 +480,12 @@ variable "guardduty_invitation_message" {
   default     = "This is an automatic invitation message from guardduty-baseline module."
 }
 
+variable "guardduty_malware_protection_enabled" {
+  description = "Boolean whether GuardDuty malware protection (EBS volumes scanning) is enabled."
+  type        = bool
+  default     = false
+}
+
 # --------------------------------------------------------------------------------------------------
 # Variables for s3-baseline module.
 # --------------------------------------------------------------------------------------------------

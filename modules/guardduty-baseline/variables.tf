@@ -38,3 +38,9 @@ variable "tags" {
     "Terraform" = true
   }
 }
+
+variable "malware_protection_enabled" {
+  description = "Boolean whether malware protection (EBS volumes scanning) is enabled."
+  type        = bool
+  default     = false
+}
