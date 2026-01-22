@@ -328,8 +328,8 @@ variable "cloudtrail_key_deletion_window_in_days" {
   default     = 10
 }
 
-variable "cloudtrail_kms_key_arn" {
-  description = "The ARN of an external KMS key to use for CloudTrail encryption. If not provided, a new KMS key will be created."
+variable "cloudtrail_kms_key_id" {
+  description = "The ID or alias of an external KMS key to use for CloudTrail encryption. If not provided, a new KMS key will be created."
   type        = string
   default     = null
 }

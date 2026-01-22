@@ -78,7 +78,7 @@ module "cloudtrail_baseline" {
   iam_role_name                     = var.cloudtrail_iam_role_name
   iam_role_policy_name              = var.cloudtrail_iam_role_policy_name
   key_deletion_window_in_days       = var.cloudtrail_key_deletion_window_in_days
-  cloudtrail_kms_key_arn            = var.cloudtrail_kms_key_arn
+  cloudtrail_kms_key_id             = var.cloudtrail_kms_key_id
   region                            = var.region
   s3_bucket_name                    = local.audit_log_bucket_id
   s3_key_prefix                     = var.cloudtrail_s3_key_prefix

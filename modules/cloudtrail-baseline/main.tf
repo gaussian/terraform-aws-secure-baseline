@@ -1,10 +1,15 @@
 # --------------------------------------------------------------------------------------------------
 # Local values for conditional KMS key handling.
 # --------------------------------------------------------------------------------------------------
+data "aws_kms_key" "external" {
+  count  = var.cloudtrail_kms_key_id != null ? 1 : 0
+  key_id = var.cloudtrail_kms_key_id
+}
+
 locals {
-  use_external_kms_key = var.cloudtrail_kms_key_arn != null
-  kms_key_arn          = local.use_external_kms_key ? var.cloudtrail_kms_key_arn : (var.enabled ? aws_kms_key.cloudtrail[0].arn : null)
-  kms_key_id           = local.use_external_kms_key ? var.cloudtrail_kms_key_arn : (var.enabled ? aws_kms_key.cloudtrail[0].id : null)
+  use_external_kms_key = var.cloudtrail_kms_key_id != null
+  kms_key_arn          = local.use_external_kms_key ? data.aws_kms_key.external[0].arn : (var.enabled ? aws_kms_key.cloudtrail[0].arn : null)
+  kms_key_id           = local.use_external_kms_key ? data.aws_kms_key.external[0].id : (var.enabled ? aws_kms_key.cloudtrail[0].id : null)
 }
 
 # --------------------------------------------------------------------------------------------------
