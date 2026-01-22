@@ -24,6 +24,11 @@ locals {
 # Create an IAM Role for AWS Config recorder to publish results and send notifications.
 # Reference: https://docs.aws.amazon.com/config/latest/developerguide/gs-cli-prereq.html#gs-cli-create-iamrole
 # --------------------------------------------------------------------------------------------------
+data "aws_kms_key" "config_sns_topic" {
+  count  = var.config_baseline_enabled && var.config_sns_topic_kms_master_key_id != null ? 1 : 0
+  key_id = var.config_sns_topic_kms_master_key_id
+}
+
 data "aws_iam_policy_document" "recorder_assume_role_policy" {
   count = var.config_baseline_enabled ? 1 : 0
   statement {
@@ -67,9 +72,12 @@ data "aws_iam_policy_document" "recorder_publish_policy" {
     resources = [for topic in local.config_topics : topic.arn if topic != null]
   }
 
-  statement {
-    actions   = ["kms:Decrypt", "kms:GenerateDataKey"]
-    resources = ["arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:${var.config_sns_topic_kms_master_key_id != null ? (startswith(var.config_sns_topic_kms_master_key_id, "alias/") ? var.config_sns_topic_kms_master_key_id : "key/${var.config_sns_topic_kms_master_key_id}") : "key/"}"]
+  dynamic "statement" {
+    for_each = var.config_sns_topic_kms_master_key_id != null ? [1] : []
+    content {
+      actions   = ["kms:Decrypt", "kms:GenerateDataKey"]
+      resources = [data.aws_kms_key.config_sns_topic[0].arn]
+    }
   }
 }
 
