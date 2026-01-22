@@ -76,7 +76,7 @@ data "aws_iam_policy_document" "recorder_publish_policy" {
     for_each = var.config_sns_topic_kms_master_key_id != null ? [1] : []
     content {
       actions   = ["kms:Decrypt", "kms:GenerateDataKey"]
-      resources = [data.aws_kms_key.config_sns_topic[0].arn]
+      resources = ["arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/${data.aws_kms_key.config_sns_topic[0].id}"]
     }
   }
 }
