@@ -9,8 +9,13 @@ output "cloudtrail_sns_topic" {
 }
 
 output "kms_key" {
-  description = "The  KMS key used for encrypting CloudTrail events."
-  value       = var.enabled ? aws_kms_key.cloudtrail[0] : null
+  description = "The KMS key used for encrypting CloudTrail events. Returns null if an external key is used."
+  value       = var.enabled && !local.use_external_kms_key ? aws_kms_key.cloudtrail[0] : null
+}
+
+output "kms_key_arn" {
+  description = "The ARN of the KMS key used for encrypting CloudTrail events (either created or external)."
+  value       = var.enabled ? local.kms_key_arn : null
 }
 
 output "log_delivery_iam_role" {
